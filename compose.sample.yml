@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  testnet:
+    image: tequ/testnet-token-faucet:latest
+    ports:
+      - "3001:3000"
+    restart: always
+    environment:
+      RIPPLED_URI: wss://testnet.xrpl-labs.com
+      FUNDING_ADDRESS: 
+      FUNDING_SECRET: 
+
+  devnet:
+    image: tequ/testnet-token-faucet:latest
+    ports:
+      - "3002:3000"
+    restart: always
+    environment:
+      RIPPLED_URI: wss://s.devnet.rippletest.net:51233
+      FUNDING_ADDRESS: 
+      FUNDING_SECRET: 
+
+  amm-devnet:
+    image: tequ/testnet-token-faucet:latest
+    ports:
+      - "3003:3000"
+    restart: always
+    environment:
+      RIPPLED_URI: wss://amm.devnet.rippletest.net:51233
+      FUNDING_ADDRESS: 
+      FUNDING_SECRET: 
+
+  hooks-testnet-v2:
+    image: tequ/testnet-token-faucet:latest
+    ports:
+      - "3004:3000"
+    restart: always
+    environment:
+      RIPPLED_URI: wss://hooks-testnet-v2.xrpl-labs.com
+      FUNDING_ADDRESS: 
+      FUNDING_SECRET: 
+
+  # hooks-testnet-v3:
+  #   image: tequ/testnet-token-faucet:latest
+  #   ports:
+  #     - "3005:3000"
+  #   restart: always
+  #   environment:
+  #     RIPPLED_URI: wss://hooks-testnet-v3.xrpl-labs.com
+  #     FUNDING_ADDRESS: 
+  #     FUNDING_SECRET: 
