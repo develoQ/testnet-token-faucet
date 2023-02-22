@@ -4,9 +4,9 @@ const cors = require('cors')
 const app = express()
 const port = process.env['PORT'] || 3000
 const addressCodec = require('ripple-address-codec')
-const { Client, Wallet } = require('xrpl')
+const { Client, Wallet, AccountSetAsfFlags } = require('xrpl')
 const { isValidRepresentation } = require('./utils')
-const { AccountRootFlags,AccountFlagIndices } = require('xrpl/dist/npm/models/ledger')
+const { AccountRootFlags } = require('xrpl/dist/npm/models/ledger')
 
 const rippledUri = process.env['RIPPLED_URI']
 const address = process.env['FUNDING_ADDRESS']
@@ -52,7 +52,7 @@ function setDefaultRippled() {
       await api.submitAndWait({
         TransactionType: 'AccountSet',
         Account: address,
-        SetFlag: AccountFlagIndices.defaultRipple
+        SetFlag: AccountSetAsfFlags.asfDefaultRipple,
       }, { wallet: Wallet.fromSecret(secret) })
       console.log(`----- | Setted defaultRipple`)
     }
