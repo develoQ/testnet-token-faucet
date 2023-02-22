@@ -225,6 +225,12 @@ app.post('/accounts', (req, res) => {
           })
           console.log(`${reqId}| Setting nextAvailableSeq=null`)
           nextAvailableSeq = null
+        } else if (engine_result === 'tecNO_DST') {
+          console.log(`${reqId}| Account (${req.body.destination}) not activated.`)
+          res.status(503).send({
+            error: `Account (${req.body.destination}) not activated.`,
+            account
+          })
         } else {
           console.log(`${reqId}| Unrecognized failure to fund ${account.address} with ${amount} ${req.body?.currency}.${address} (${engine_result})`)
           res.status(503).send({
