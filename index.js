@@ -226,7 +226,7 @@ app.post('/accounts', (req, res) => {
           console.log(`${reqId}| Setting nextAvailableSeq=null`)
           nextAvailableSeq = null
         } else {
-          console.log(`${reqId}| Unrecognized failure to fund ${account.address} with ${amount} ${currency}.${address} (${engine_result})`)
+          console.log(`${reqId}| Unrecognized failure to fund ${account.address} with ${amount} ${req.body?.currency}.${address} (${engine_result})`)
           res.status(503).send({
             error: 'Failed to fund account',
             account
