@@ -201,10 +201,18 @@ app.post('/accounts', (req, res) => {
             account,
             amount: Number(amount)
           }
-          if (!req.body.destination) {
-            response.balance = Number(amount)
-          }
-          res.send(response)
+
+          api.requestAll({
+            command: 'account_lines',
+            account: account.address,
+            ledger_index: 'validated'
+          }).then(responses => {
+            const lines = responses.flatMap(r => r.result.lines)
+            const balance = lines.find((line) => line.account === address && line.currency === req.body.currency)?.balance
+            response.balance = balance
+            console.log({response})
+            res.status(200).send(response)
+          })
           txCount++
         } else if (engine_result === 'tefPAST_SEQ' || engine_result === 'terPRE_SEQ') {
           // occurs when we re-connect to a different rippled server
@@ -217,10 +225,18 @@ app.post('/accounts', (req, res) => {
 
           // advance cached sequence if needed:
           getSequenceFromAccountInfo({ reqId, shouldAdvanceSequence: false })
-        } else if (engine_result === 'tecPATH_DRY') {
-          console.log(`${reqId}| The trust line from ${req.body.destination} to ${req.body?.currency}.${account.address} with is not set.`)
+        } else if (engine_result ==='tecPATH_PARTIAL') {
+          console.log(`${reqId}| Trustline limit exceeded by faucet (${engine_result})`)
           res.status(503).send({
-            error: 'Trust line not set',
+            error: 'Trustline limit exceeded by faucet',
+            account
+          })
+
+          getSequenceFromAccountInfo({ reqId, shouldAdvanceSequence: false })
+        } else if (engine_result === 'tecPATH_DRY') {
+          console.log(`${reqId}| Trustline from ${req.body.destination} to ${req.body?.currency}.${account.address} with is not set.`)
+          res.status(503).send({
+            error: 'Trustline not set',
             account
           })
           console.log(`${reqId}| Setting nextAvailableSeq=null`)
