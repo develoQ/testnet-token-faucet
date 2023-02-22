@@ -210,7 +210,6 @@ app.post('/accounts', (req, res) => {
             const lines = responses.flatMap(r => r.result.lines)
             const balance = lines.find((line) => line.account === address && line.currency === req.body.currency)?.balance
             response.balance = balance
-            console.log({response})
             res.status(200).send(response)
           })
           txCount++
@@ -349,6 +348,12 @@ function getSequenceFromAccountInfo(options) {
     return sequence
   })
 }
+
+app.get('/issuer', (req, res) => {
+  res.status(200).send({
+    issuer: address
+  })
+})
 
 setDefaultRippled()
 const server = app.listen(port, () => console.log(`Altnet faucet, node version: ${process.version}, listening on port: ${port}`))
