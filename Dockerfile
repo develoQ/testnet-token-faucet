@@ -1,5 +1,5 @@
-FROM node:12-alpine
-MAINTAINER Ripple Operations <ops@ripple.com>
+FROM node:16-alpine
+LABEL maintainer="tequ <develoQ.jp@gmail.com>"
 
 RUN mkdir /faucet
 ADD . / faucet/

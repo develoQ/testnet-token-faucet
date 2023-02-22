@@ -1,5 +1,5 @@
 {
-  "name": "testnet-faucet",
+  "name": "testnet-token-faucet",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,8 +11,9 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.4",
+    "dotenv": "^16.0.3",
     "express": "^4.16.3",
-    "ripple-address-codec": "^4.1.0",
-    "ripple-lib": "^1.6.4"
+    "ripple-address-codec": "^4.2.4",
+    "xrpl": "^2.7.0-beta.2"
   }
 }
